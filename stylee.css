@@ -43,7 +43,7 @@ body {
 	text-align: center;
 	text-decoration: none;
 	font-family: Helvetica, Arial, sans-serif;
-	padding: 10px;
+	padding: 10px;    
 }
 
 #nav a:hover, a:active {
@@ -58,6 +58,48 @@ body {
 	margin-top:0;
 	text-align: center;
 }
+
+#nav { 
+    display: flex;
+    flex-flow: column;
+    justify-content: auto;
+}
+
+#container {
+    display: flex;
+    flex-flow: column;
+}
+
+
+
+@media (min-width: 800px) {
+
+  #nav {
+    flex-flow: row;
+  }
+
+ #container {
+  flex-flow: row;
+
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
