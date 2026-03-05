@@ -1,0 +1,358 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2868
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Bold;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs40 \cf0 We\'92ll work from the top down on this example. As in our previous example, I have overall page styles set up in a stylesheet, and we\'92re going to be working from the grid stylesheet, so as not to confuse what\'92s going on with the rest of the styles. (Show that stylesheet and where it references itself in the top of the html page). \
+\
+Let\'92s start by dealing with the top header bar \'97 we can see there\'92s an h1 with site information, and a mugshot of the author. \
+\
+We can write our styles over in the grid.css file. To start with, let\'92s work on putting the h1 and the mugshot on the same line. The simplest way to do this is to make the header tag a flex item, and just use the space-between command to move each child item to the outside of the container. Note that the header has a class of \'93title\'94 because we have a different set of header info we\'92re using for authors. \
+\
+.title \{\
+    display: flex;\
+    justify-content: space-between;\
+\}\
+\
+The next thing we want to do is to style our navigation, also using Flexbox. We\'92ll go ahead and set display:flex and put them into a column: \
+\
+nav ul \{\
+    display: flex;\
+    flex-flow: column;\
+\}\
+\
+There\'92s no practical difference in how this looks, but the flex display means we can override it when the size of the elements increases a bit. \
+\
+Now let\'92s move down the page a bit and take a look at those author title boxes. They\'92re set up so that the headers contain a byline, dateline, and image of the author. \
+\
+The issue is that the author images are looking pretty big here, and kind of unwieldy. I\'92m going to write a bit of code that will hide them by default, and then show them when we get to a slightly larger size, using the display property in CSS. \
+\
+There are a couple ways to do this. There\'92s a visibility property in CSS, so if you write: \
+\
+.authorbox img \{\
+  visibility: hidden;\
+ \}\
+\
+The image goes away, but the box is still drawn. \
+\
+There\'92s also a visibility:collapse command, but it only works on table layouts. \
+\
+A different way to go about this is to use the display property in css: \
+\
+.authorbox img \{\
+   display: none;\
+\}\
+\
+And let\'92s do the same with the pull quotes: \
+\
+.pullquote \{\
+  display: none; \
+\}\
+\
+This gets rid of the image. (Explain why it\'92s usually not a great idea to make the browser load stuff that\'92s hidden, but this is for the example, etc.) \
+\
+Looking down the page, both of the options that we had for author photos are gone, but the two blog posts seem to be bumping into each other. I\'92m going to put a little rule in between them like we have in the header at the top of the page to distinguish them. They\'92re each enclosed in an \'93article\'94 tag, so I can write: \
+\
+article \{\
+  margin-bottom: 0.7em;\
+  border-bottom: 1px solid #ccc;\
+\}\
+\
+And that looks pretty ok, except now the bottom of the page has two borders on it (one was on the top of the footer). \
+\
+I could do a couple things here: one would be removing the border on the footer, but another would be to use a pseudo-class of CSS to get rid of the border on the last instance of article: \
+\
+article:last-of-type \{\
+  border-bottom: none;\
+\}\
+\
+The last-of-type class gets rid of the border on the last article, which is useful when you might have several articles there. \
+\
+Let\'92s go ahead and start messing with some other stuff as we make this page a little wider. We\'92ll start by changing the navigation from a column to a row at 450px. \
+\
+We normally wouldn\'92t necessarily have a media query for this small of a part of a page, but we only have a few nav items here. \
+\
+You\'92ll remember how the media query syntax worked from class last week:  \
+\
+@media screen and (min-width: 450px) \{\
+\
+ \}\
+\
+Inside this, we write normal style rules like so: \
+\
+   nav ul \{\
+        flex-flow: row;\
+    \}\
+\
+\}\
+\
+So now our items are in a row. We can space them out a bit using the justify-content command: \
+\
+    nav ul \{\
+        flex-flow: row;\
+        justify-content: space-between;\
+    \}\
+\
+Then when this gets slightly bigger still, let\'92s set a slightly different width on our container, to keep the line lengths readable, and let our author images show again. We\'92ll float them inside the articles. \
+\
+@media screen and (min-width: 600px) \{\
+\
+    #container \{\
+        width: 80%;\
+    \}\
+\}\
+\
+And within that media query, let\'92s go ahead and make the image visible: \
+\
+    .authorbox img \{\
+      display: block;\
+    \}\
+\
+We\'92ll also set the width on it to be 100%, which in this case is the width of its containing element: \
+\
+    .authorbox img \{\
+      display: block;\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf0       width: 100%;\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0     \}\
+\
+And let\'92s add a little margin to the top of that image, to move it a touch away from the dateline: \
+\
+    .authorbox img \{\
+      display: block;\
+      width: 100%;\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf0       margin-top: 0.5em;\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0     \}\
+\
+\
+And then we can set the width of the author box itself to be a percentage of its container: \
+\
+    .authorbox \{\
+      width: 25%;\
+    \}\
+\
+Now that that\'92s all set, we can make the author box and image float inside the article by using the float command: \
+\
+    .authorbox \{\
+      width: 25%;\
+    
+\f1\b   float: left;\
+    
+\f0\b0 \}\
+\
+If we do that, we probably also need to add some margin to it: \
+\
+    .authorbox \{\
+      width: 25%;\
+      float: left;\
+     
+\f1\b  margin-right: 20px;\
+
+\f0\b0     \}\
+\
+And then the last thing we want to do is to make it so that the image doesn\'92t get too large. We can set a max-width like so: \
+\
+    .authorbox \{\
+      width: 25%;\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf0       max-width: 200px; \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0       float: left;\
+      margin-right: 20px;\
+    \}\
+\
+We\'92ll make another tweak when we get to 800px, because those menu items start to look a little stretched out: \
+\
+@media screen and (min-width: 800px) \{\
+    .item1 \{\
+      margin-right: auto;\
+    \
+\}\
+\
+This will leave our \'93home\'94 item to the far left, and spread out our other items to the right. Unfortunately they mush into each other, so we can fix that by setting another rule for the list items to have some margin: \
+\
+@media screen and (min-width: 800px) \{\
+    .item1 \{\
+      margin-right: auto;\
+    \}\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf0     nav ul li \{\
+      margin: 5px;\
+    \}
+\f0\b0 \
+\
+\}\
+\
+Let\'92s also go ahead and show our pullquotes, which will display at the bottom of the articles: \
+\
+@media screen and (min-width: 800px) \{\
+    .item1 \{\
+      margin-right: auto;\
+    \}\
+\
+    nav ul li \{\
+      margin: 5px;\
+    \}\
+\
+
+\f1\b     .pullquote \{\
+      display: block;\
+    \}
+\f0\b0 \
+\
+\}\
+\
+Now that it\'92s getting wider, we can start setting up our grid layout. Let\'92s do this on the article element. \
+\
+@media screen and (min-width:1000px) \{\
+  article \{\
+    display: grid;\
+  \}\
+\
+\}\
+\
+Now that that\'92s done, the page doesn\'92t look too different, except that the float is removed from that author box \'97 that\'92s because the grid setting overrides its previous display of float. (Show in web inspector.) \
+\
+Looking back at our html, we can see that the article element has five child elements in it (can show in web inspector or collapse page to see better) \
+\
+* header (author box)\
+* three sections (the middle one is the photo) \
+* a paragraph with class of pull quote \
+\
+By default, all five of those children of the article tag become Grid items. So if we start laying out a grid: \
+\
+  article \{\
+    display: grid;\
+
+\f1\b     grid-template-columns: 200px 1fr 1fr; \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0   \}\
+\
+We can see that items are flowing into the grid, which is good. This isn\'92t going to be our final layout, but it\'92s a useful way to make sure the grid tools all work. What\'92s also neat about this is that we can see it applies to both the article elements on the page, which means that we can keep our styling rules in one place for how these things should look, and as you add more articles in the future, they will be similar. \
+\
+Let\'92s start by kind of considering the pieces of our layout and how they\'92re organized. The main content (the blog post) is what I want to take up most of the space, but it\'92s actually in two different section elements here. I want the author info next to the main content, and I want to use the image to break up the text. \
+\
+Let\'92s go ahead and fix up the author box first, then we\'92ll deal with the grid areas and their layouts. \
+\
+The reason the author box is so small is it has a width of 25% applied to it, and it\'92s now in an area set to be 200px wide. Because width is an inheritance property, it\'92s getting smaller. Thankfully, we can change that in the css: \
+\
+  .authorbox \{\
+    width: 100%; \
+  \}\
+\
+When we do that, we notice that the content runs right up to the edge of the main bar. We can fix that with the gap property: \
+\
+@media screen and (min-width:1000px) \{\
+  article \{\
+    display: grid;\
+    grid-template-columns: 200px 1fr 1fr;\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf0     grid-gap: 20px; \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0   \}\
+\
+I have classes set on all these items: \
+* authorbox\
+* section1\
+* img\
+* section2 \
+* pullquote\
+\
+Given all that, I might start by setting up something like this (c&p the grid area from \'93finished\'94): \
+\
+.authorbox \{\
+    width: 100%;\
+    grid-area: a;\
+  \}\
+\
+  .section1 \{\
+    grid-area: b;\
+  \}\
+\
+  .image \{\
+    grid-area: c;\
+  \}\
+\
+  .section2 \{\
+    grid-area: d;\
+  \}\
+\
+  .pullquote \{\
+    grid-area: e;\
+  \}\
+\
+Now when I go back to the page, those are all mushed together, but we could write something like this: \
+\
+  article \{\
+    display: grid;\
+    grid-template-columns: 200px 1fr 1fr;\
+    grid-gap: 20px;\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf0     grid-template-areas:\
+        "a b b"\
+        "c c e"\
+        ". d d";\
+  \}
+\f0\b0 \
+\
+And that looks pretty good. \
+\
+Sidenote: the reason the items aren\'92t lining up with the top of their grid items is that browsers will automatically put in margin on top of items like the initial paragraph and the pull quote. We can fix that with just a touch of code: \
+\
+  .pullquote \{\
+
+\f1\b     margin-top:0;\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0     grid-area: e;\
+  \}\
+\
+And \
+\
+  .section1 p:first-of-type, .section2 p:first-of-type \{\
+    margin-top: 0;\
+  \}\
+\
+Which sets those to 0 without affecting other paragraphs in the section. \
+\
+We could play around with the image and pullquote:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf0     grid-template-areas:\
+        "a b b"\
+        "c c c\'94\
+        \'93e d d";\
+  \}
+\f0\b0  \
+\
+Or even do something different for super wide screens: \
+\
+@media screen and (min-width:1200px) \{\
+  article \{\
+    display: grid;\
+    grid-template-columns: 200px 1fr 1fr 1fr;\
+    grid-gap: 20px;\
+    grid-template-areas:\
+        "a b b e"\
+        "c c c ."\
+        ". d d .";\
+  \}\
+\}}

@@ -1,0 +1,540 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2868
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Bold;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww13520\viewh11000\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs36 \cf0 CSS grid basics \
+\
+Look inside first example, you have CSS and index.html, as well as finished styles. \
+\
+
+\f1\b 01-Basics\
+
+\f0\b0 \
+We\'92re going to open index.html in a browser (use Firefox Developer Edition) and we see that these are just stacked list items. \
+\
+Look at the index.html and see that these are list items, inside an unordered list tag with a class of \'93cards.\'94 Remember that direct children of a container with the grid property set on it become grid items. \
+\
+We\'92ll set the grid property on the item that has a class of \'93cards\'94: \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 .cards \{\
+    margin: 0 -10px;\
+    padding: 0;\
+    list-style: none;\
+
+\f1\b     display: grid;\
+
+\f0\b0 \}\
+\
+Next we need to define our grid columns. We can do this by adding in: \
+\
+.cards \{\
+    margin: 0 -10px;\
+    padding: 0;\
+    list-style: none;\
+    display: grid;\
+
+\f1\b     grid-template-columns: 1fr 1fr 1fr;\
+
+\f0\b0 \}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+This will give us three equal columns, each taking up 1 fraction (1fr) of the available space. We can tweak this around for fun: \
+\
+1fr 2fr 1fr \
+\
+Or use explicit width values:\
+\
+200px 2fr 200px \
+\
+Right now, we have this weird margin and padding command at the top of the page. That\'92s there because these items are actually list items, so we need to tweak them around to get the sizing to work out (show grid example in FF)\
+\
+There\'92s a different way to set margins inside of the Grid spec, which is called grid-gap: \
+\
+grid-gap: 20px; \
+\
+.cards \{\
+    list-style: none;\
+    display: grid;\
+    grid-template-columns: 1fr 1fr 1fr;\
+
+\f1\b     grid-gap: 20px; \
+
+\f0\b0 \}\
+\
+Grid-gap is shorthand for grid-column-gap and grid-row-gap: \
+\
+    grid-column-gap: 10px;\
+    grid-row-gap: 25px; \
+\
+So you could also set those individually. \
+\
+Apparently the name of these properties is changing from grid-gap to just gap, column-gap and row-gap, so you can include both in your stylesheet for extra backup. \
+\
+.cards \{\
+    margin: 0;\
+    padding: 0;\
+    list-style: none;\
+    display: grid;\
+    grid-template-columns: 1fr 1fr 1fr;\
+  
+\f1\b   grid-gap: 20px;\
+    gap: 20px; \
+
+\f0\b0     /*grid-column-gap: 10px;\
+    grid-row-gap: 25px; */\
+\}\
+\
+
+\f1\b 02-Positioning\
+\
+
+\f0\b0 So here, our index.html has the same layout we saw before. You can see the logic of the grid rows \'97 each is taking up 1fr of the available space, and because we\'92ve indicated 1fr of space three times, we have three columns on the page. \
+\
+We can also see that we currently have four column lines and three row lines that we can use for alignment. \
+\
+Let\'92s alter this code a bit to add in the column and row position for individual items. Keep in mind that each card has its own class. \
+\
+.card1 \{\
+  grid-column: 1 / 3;\
+  grid-row: 1;\
+\}\
+\
+The command grid-column 1 / 3; has the following logic: \
+\
+* start the item at grid column 1 \
+* end it at grid column 3 \
+\
+And grid-row: 1; has the following logic: \
+\
+* start the item at grid-row 1\
+\
+Carry this on with each of these commands: \
+\
+.card2 \{\
+  grid-column: 3;\
+  grid-row: 1;\
+\}\
+\
+.card3 \{\
+  grid-column: 1;\
+  grid-row: 2 / 4;\
+\}\
+\
+.card4 \{\
+  grid-column: 2 / 4;\
+  grid-row: 2;\
+\}\
+\
+.card5 \{\
+  grid-column: 2 / 4;\
+  grid-row: 3;\
+\}\
+\
+We can also use this to add empty space within our layouts: \
+\
+.card3 \{\
+  grid-column: 1;\
+  grid-row: 3 / 4;\
+\}\
+\
+Or \
+\
+.card4 \{\
+  grid-column: 3 / 4;\
+  grid-row: 2;\
+\}\
+\
+No other content will flow into that area that we\'92ve left vacant. \
+\
+The second way to do positioning is with the named areas trick, in which we give each card a name within the grid-area property.\
+\
+.card1 \{ grid-area: a; \}\
+.card2 \{ grid-area: b; \}\
+.card3 \{ grid-area: c; \}\
+.card4 \{ grid-area: d; \}\
+.card5 \{ grid-area: e; \}\
+\
+Then, the grid-template-areas property takes a set of values that physically describe the layout of the cards: \
+\
+.cards \{\
+        margin: 0;\
+        padding: 0;\
+        list-style: none;\
+        display: grid;\
+        grid-template-columns: 1fr 1fr 1fr;\
+        grid-gap: 20px;\
+     
+\f1\b    grid-template-areas:\
+            "a a b"\
+            ". d d"\
+            "c e e";\
+
+\f0\b0     \}\
+\
+Note the syntax: the command starts after a colon, each row is inside a set of quote marks, and there\'92s a semicolon at the very end. A dot means that nothing would be shown in that area. \
+\
+You can change up the areas as long as they\'92re contiguous either vertically or horizontally (no L-shaped layout). Try out: \
+\
+
+\f1\b "a a b"\
+\'93d d .\'94\
+"c e .\'94
+\f0\b0 \
+\
+or some other combination. \
+\
+Note that one thing we can do here is to take the content out of the normal document flow, like we did in Flexbox. This is problematic for accessibility, as you may inadvertently take advantage of the spec to change the order of the content and make it appear out of place or nonsensical for people using screen readers. \
+\
+
+\f1\b 3 \'97 Aligning Items \
+\
+
+\f0\b0 Alignment in Grid layout works similarly as it does in Flexbox. We\'92re starting here with a layout that\'92s similar to what we did just now, where we have named items that are aligned using the grid-template-areas command. \
+\
+By default, the area that those items occupy is the whole area available to them \'97 put another way, they\'92re going to fill the available space in the grid layout, accounting for the grid-gap area that we\'92ve left for them. \
+\
+To be technical, they\'92re using the default property for the \'93align-items\'94 command, which is \'93stretch.\'94 So we can use that align-items command to make the background not stretch, but pull back to only cover a portion of the area: \
+\
+.cards \{\
+    margin: 0;\
+    padding: 0;\
+    list-style: none;\
+    display: grid;\
+    grid-template-columns: repeat(4, 1fr);\
+    grid-template-rows: repeat(3, 100px);\
+    grid-template-areas:\
+        "a a a b"\
+        "a a a b"\
+        "c d d d";\
+    grid-gap: 20px;\
+
+\f1\b     align-items: start;
+\f0\b0 \
+\}\
+\
+Note that this 
+\f1\b doesn\'92t alter the grid structure
+\f0\b0 , just any background or area you set on it. You don\'92t magically have more space to insert items into. \
+\
+I can add some more content to item 1 to demonstrate how the background area works (c&p from finished) \'97 extra text under item 1 \
+\
+You can use the same commands as we use in Flexbox to alter the alignment of the other grid items, too: \
+\
+.two \{\
+    grid-area: b;\
+
+\f1\b     align-self: stretch;\
+
+\f0\b0 \}\
+\
+.three \{\
+    grid-area: c;\
+
+\f1\b     align-self: flex-end;\
+
+\f0\b0 \}\
+\
+.four \{\
+    grid-area: d;\
+
+\f1\b     align-self: center; \
+
+\f0\b0 \}\
+\
+
+\f1\b 4 \'97 Justifying Items 
+\f0\b0 \
+\
+So we\'92ll start with the same example as last time, with items put on the grid and the default (stretch) property applied. We can use the justify-items property to justify them to various spots: \
+\
+.cards \{\
+    margin: 0;\
+    padding: 0;\
+    list-style: none;\
+    display: grid;\
+    grid-template-columns: repeat(4, 1fr);\
+    grid-template-rows: repeat(3, 100px);\
+    grid-template-areas:\
+        "a a a b"\
+        "a a a b"\
+        "c d d d";\
+    grid-gap: 20px;\
+
+\f1\b     justify-items: end;
+\f0\b0 \
+\}\
+\
+You can also try other values for justifying items \'97 start, center, or stretch (which is of course the default). You can also use the justify-self property to apply these to individual items as well: \
+\
+.four \{\
+    grid-area: d;\
+    justify-self: center;\
+\}\
+\
+Keep in mind, justify-items is for setting justification properties on multiple items (it would be applied to the parent container), while justify-self is meant for setting properties on individual items. \
+\
+(In case you\'92re confused, the justify property is for items aligned along the 
+\f1\b main axis
+\f0\b0  of the layout \'97 in this case, left to right \'97 and the align properties are for items aligned along the 
+\f1\b cross axis
+\f0\b0  of the layout \'97 in this case, top to bottom.) \
+\
+
+\f1\b 5 - Aligning Grid Tracks \
+\
+
+\f0\b0 So in this case, we\'92re going to look at how to align items to grid tracks if they\'92re small enough to do so. \
+\
+Up until now, we\'92ve mostly been defining our grid items using the \'93fr\'94 command, which will allow them to take up a fraction of a given size. This is useful when we want a design to respond to different sizes, but we also can define rows and columns with a number and a percentage size. Let\'92s start by doing that: \
+\
+.cards \{\
+    margin: 0;\
+    padding: 0;\
+    list-style: none;\
+    display: grid;\
+ 
+\f1\b    grid-template-columns: repeat(4, 15%);\
+    grid-template-rows: repeat(3, 100px);\
+
+\f0\b0     grid-template-areas:\
+        "a a a b"\
+        "a a a b"\
+        "c d d d";\
+    grid-gap: 20px;\
+\}\
+\
+This will give us 4 columns, 15% of the containing element\'92s width each, and 3 rows at 100 pixels high each. If you look at the grid inspector in Firefox, you can see that those items are being drawn from the top left, and take up less than the available space in the container. \
+\
+We can also set an explicit height on the container (right now the height is being drawn to fit the grid items/cards inside it): \
+\
+.cards \{\
+    margin: 0;\
+    padding: 0;\
+    list-style: none;\
+    display: grid;\
+    grid-template-columns: repeat(4, 15%);\
+    grid-template-rows: repeat(3, 100px);\
+
+\f1\b     height: 50vh;\
+
+\f0\b0     grid-template-areas:\
+        "a a a b"\
+        "a a a b"\
+        "c d d d";\
+    grid-gap: 20px;\
+\}\
+\
+vh is a super useful property to use when you need a thing to take up a portion of the 
+\f1\b v
+\f0\b0 iewport 
+\f1\b h
+\f0\b0 eight. vw does the same thing for viewport width. \
+\
+Now that that\'92s done, we can look at it in the grid examiner in FF, and see that the grid is at the top left of our defined container. Now we can add some justify-items and align-items properties to it. \
+\
+.cards \{\
+    margin: 0;\
+    padding: 0;\
+    list-style: none;\
+    display: grid;\
+    grid-template-columns: repeat(4, 15%);\
+    grid-template-rows: repeat(3, 100px);\
+    height: 50vh;\
+    grid-template-areas:\
+        "a a a b"\
+        "a a a b"\
+        "c d d d";\
+    grid-gap: 20px;\
+
+\f1\b     align-content: space-between;
+\f0\b0 \
+\}\
+\
+And \
+\
+.cards \{\
+    margin: 0;\
+    padding: 0;\
+    list-style: none;\
+    display: grid;\
+    grid-template-columns: repeat(4, 15%);\
+    grid-template-rows: repeat(3, 100px);\
+    height: 50vh;\
+    grid-template-areas:\
+        "a a a b"\
+        "a a a b"\
+        "c d d d";\
+    grid-gap: 20px;\
+    align-content: space-between;\
+
+\f1\b     justify-content: space-between;
+\f0\b0 \
+\}\
+\
+We can also try this out with the other values of the align- and justify-content commands: center, space-around, stretch, flex-start and flex-end. \
+\
+6 \'97 Auto Fill Grid \
+\
+The command we\'92ve used to create grid columns, grid-template-columns, lets us define a number of columns on the grid and their sizing (relative or absolute). It doesn\'92t, however, offer responsive sizing \'97 if the containing element just gets too small, so do the grid items (demonstrate this with browser). \
+\
+To automatically fill the space inside a grid container with elements that can reflow as the context changes, we can use the repeat command: \
+\
+.cards \{\
+    margin: 0;\
+    padding: 0;\
+    list-style: none;\
+    display: grid;\
+
+\f1\b     grid-template-columns: repeat(auto-fill, 200px);\
+
+\f0\b0 \}\
+\
+In this case, what the logic is telling the columns to do is to put as many 200px columns inside that space as possible. The issue you see is that the containing element is larger, which leaves gaps at the end of the sets of columns.\
+\
+If we don\'92t want to have those gaps, we can use a minmax() command to fix that: \
+\
+.cards \{\
+    margin: 0;\
+    padding: 0;\
+    list-style: none;\
+    display: grid;\
+
+\f1\b     grid-template-columns: repeat(auto-fill, minmax(200px,1fr));\
+
+\f0\b0 \}\
+\
+Make sure those parentheses all balance. What you\'92re telling the system to do is to automatically fill your template columns (auto-fill) with columns that are a minimum of 200px and a maximum of 1fr of the width available. As you resize the window, you can see that the cards start at 233px wide, and get smaller as their containing element changes until they collapse into just one column. \
+\
+
+\f1\b 7 \'97 Using FR units for layout \
+\
+
+\f0\b0 We can keep grid items in proportion to one another by using fr units (fractional units) in our designs, and even mix fractional and fixed units within our designs. Let\'92s start with a three-column layout with mixed-width columns. \
+\
+The html is a little different than what we\'92ve been using before: we have a main article tag with a class of \'93content\'94 and two divs with a class of \'93sidebar1\'94 and \'93sidebar2.\'94 We\'92ll use that to style them. \
+\
+Over in the stylesheet, you\'92ll see something new. It\'92s worth pausing for a minute to explain how this selector works: \
+\
+.example > * \{\
+    background-color: #f1b82d;\
+    border: 1px solid #ccc;\
+    border-radius: 5px;\
+    padding: 10px;\
+\}\
+\
+What that does is to combine the child selector tool in CSS, the >, which we haven\'92t seen yet, with the \'93all\'94 selector tool in CSS, the asterisk, to mean that all children of .example will have the same styles set on them. Nothing to worry about now, just in case you\'92re curious. You\'92ll also see that .example is set to display:grid, which isn\'92t currently doing anything because we don\'92t have any other styles set on it. \
+\
+To mix up fractional sizing, we can do this: \
+\
+.example \{\
+    display: grid;\
+
+\f1\b     grid-template-columns: 1fr 4fr 1fr;\
+    grid-gap: 20px;\
+
+\f0\b0 \}\
+\
+This essentially creates a six-column grid where two items are taking up 1/6th of the room available, and one item is taking up 4/6 (or 2/3) of the room, accounting for the grid-gap units. \
+\
+The problem with this is that the grid lays out in the order the items are in the html document order, so our main content area (which comes first in the html) is 1fr and the sidebar, supposed to be 1fr, is 4fr units. \
+\
+So we can fix this a couple different ways \'97 we can use the grid tools to have the content draw itself into the layout we want, or we could move a sidebar ahead of the main content in the html layout. \
+\
+There are a few questions to ask ourselves at this point: \
+\
+What is the logical order in which to read the content? If the sidebar is for example an introduction, author info, background information, then maybe it makes sense to run it before the main content area in the html, so that if the css breaks or someone can\'92t see the design, you read it first. On the other hand, if the main content area is the most important thing and the sidebar is, for example, links, then you might want the sidebars to stay in that order in the html. \
+\
+In this case, for the sake of the example, let\'92s show you how to use the Grid tools to move the content around. In flexbox, we could do this with the order property, but in Grid we can use the grid-column and grid-row commands instead: \
+\
+.content \{\
+    grid-column: 2;\
+\}\
+\
+This will put the main content area where we want it, but push the second sidebar down to another line (because the content is being drawn on the existing grid \'97 show this in Firefox DE) \
+\
+.sidebar1 \{\
+    grid-column: 1;\
+    grid-row: 1;\
+\}\
+\
+This plops all our stuff in place, but let\'92s go ahead and explicitly tell the system how to arrange sidebar2: \
+\
+.sidebar2 \{\
+    grid-column: 3;\
+    grid-row: 1;\
+\}\
+\
+Now we have a nice design where each item is flexible. \
+\
+We can change just a little bit of code to attain what used to be called the \'93Holy Grail\'94 layout, where two fixed-width sidebars span a flexible center container. In this case, we\'92ll just change the grid-template-columns code a touch to make the first and last columns fixed width: \
+\
+.example \{\
+    display: grid;\
+    /*grid-template-columns: 1fr 4fr 1fr;*/\
+
+\f1\b     grid-template-columns: 150px 1fr 150px;\
+
+\f0\b0     grid-gap: 20px;\
+\}\
+\
+
+\f1\b 8 \'97 Auto Layout 
+\f0\b0 \
+\
+\'93Auto\'94 can be a useful layout command in Flexbox and in Grid, but \'93auto\'94 will affect rows and columns across the Grid layout. Generally speaking, \'93auto\'94 will size a track or grid item to the content size, but that will have ripple effects on the rest of the grid. \
+\
+Looking at this example, we have \'93auto\'94 set for the central column. If you add more content to it, the column will get wider (demonstrate this). You can also control that width by setting an explicit width on one of the columns: \
+\
+
+\f1\b .cards .card2 \{\
+    width: 300px;\
+\}\
+\
+
+\f0\b0 Doing that will set the column width for both card 2 and card 5, in the same column. Similarly, setting a height on rows will set it for other items in the same row: \
+\
+
+\f1\b .cards .card4 \{\
+    height: 300px;\
+\}\
+\
+9 \'97 Auto Minmax \
+
+\f0\b0 \
+You can also use \'93auto\'94 with the minmax command to create tracks that are a minimum height or width, but can expand if you add more content. \
+\
+This example starts with six items in three columns and two rows. The command \
+\
+grid-auto-rows: minmax(150px, auto); \
+\
+means that the minimum size of the rows will be 150px, and the maximum will be set to the size of the content inside it. \
+\
+If we use some commands to set where those cards go:\
+\
+
+\f1\b .card1 \{\
+   grid-column: 1;\
+   grid-row: 1;\
+\}\
+\
+.card2 \{\
+   grid-column: 2 / 4;\
+   grid-row: 1 / 3;\
+\}
+\f0\b0 \
+\
+We see that an area that spans two rows will become 320px high (150 * 2, plus the 20 px grid-gap area).\
+\
+If we add more content to one of those cards, the design adapts, and the second card becomes even larger: \
+\
+
+\f1\b <p>Some extra content will cause this track to become taller than the 150 pixels.</p>\
+\
+
+\f0\b0 And the rest of the layout adjusts. So you can see how this becomes a neat way to lay things out. 
+\f1\b \
+}

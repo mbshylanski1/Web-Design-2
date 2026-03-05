@@ -65,6 +65,7 @@ img{
 
 
 /*We need to tell the browser we want to work with flex*/
+
 .wrapper{
   display: flex;
   flex-flow: row wrap;
@@ -100,6 +101,7 @@ img{
 
 
 /*Flexbox items can be given different widths. An item with a flexbox of 2 is twice as flexible as one with a flex of 1. So it makes sense that we want our main section to be the most flexible in this example. */
+
 @media (min-width: 800px){
   .aside{
     flex: 1 auto;
