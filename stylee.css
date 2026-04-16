@@ -1,4 +1,4 @@
-/*styles go here*/
+/*styles go here*/ first page
 
 p {
 	color: #7C90DB;
@@ -8,7 +8,7 @@ p {
 
 h1 {
 	font-family: "Montserrat", Georgia, Times New Roman, serif;
-	color: #7C90DB;
+	color: #ffffff;
 	text-align: center;
 }
 
@@ -71,94 +71,8 @@ body {
 }
 
 
-@media (min-width: 800px) {
-
-  #nav {
-    flex-flow: row;
-  }
-
- #container {
-  flex-flow: row;
-
-  }
 
 
-}
-
-
-@media screen and (min-width: 600px) {
-
-    #container {
-        width: 80%;
-    }
-
-    .authorbox img {
-      display: block;
-      width: 100%;
-      margin-top: 0.5em;
-    }
-
-    .authorbox {
-      width: 25%;
-      max-width: 200px;
-      float: left;
-      margin-right: 20px;
-    }
-}
-
-@media screen and (min-width: 800px) {
-    .item1 {
-      margin-right: auto;
-    }
-
-    nav ul li {
-      margin: 5px;
-    }
-
-    .pullquote {
-      display: block;
-    }
-
-}
-
-@media screen and (min-width:1000px) {
-  article {
-    display: grid;
-    grid-template-columns: 200px 1fr 1fr;
-    grid-gap: 20px;
-    grid-template-areas:
-        "a b b"
-        "c c e"
-        ". d d";
-  }
-
-  .authorbox {
-    width: 100%;
-    grid-area: a;
-  }
-
-  .section1 {
-    grid-area: b;
-  }
-
-  .image {
-    grid-area: c;
-  }
-
-  .section2 {
-    grid-area: d;
-  }
-
-  .pullquote {
-    margin-top: 0;
-    grid-area: e;
-  }
-
-  .section1 p:first-of-type, .section2 p:first-of-type {
-    margin-top: 0;
-  }
-
-}
 
 
 
