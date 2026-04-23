@@ -82,8 +82,7 @@ body {
 
 #nav { 
     display: flex;
-    flex-flow: row;
-    justify-content: space-between;
+    flex-flow: column;
 }
 
 #container {
@@ -219,11 +218,10 @@ input[type=submit]:hover {
 
 
 
-@media (max-width: 800px) {
-  #container {
-    flex-direction: column;
-    text-align: center;
-    padding: 10px;
+@media (min-width: 800px) {
+  #nav {
+    flex-flow: row;
+    justify-content: space-between;
   }
 }
 
